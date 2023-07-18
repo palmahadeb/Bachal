@@ -1,0 +1,93 @@
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.regiimg{
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+.regiheading{
+    font-family: 'Nunito', sans-serif;
+    font-size: 18.4px;
+    font-weight: 700;
+   color: #11175D;
+}
+.regicontainer{
+ width: 50%;
+ margin-left: auto;
+ margin-top: 50%;
+ transform: translateY(-50%);
+}
+.regipara{
+    font-family: 'Nunito', sans-serif;
+    font-size: 13.64px;
+    font-weight: 400;
+    color: rgba(0, 0, 0,.6);
+    margin-top: 13px;
+}
+.textinput{
+    margin-top: 30px;
+}
+.textinput .MuiTextField-root{
+    width: 80%;
+}
+
+
+.buttonregi .MuiButton-root {
+    width: 80%;
+    margin-top: 30px;
+    background-color: #5F35F5;
+    border-radius: 25px;
+    padding: 13px 0;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    
+}
+
+.loading .MuiLoadingButton-root{
+    width: 80%;
+    margin-top: 30px;
+    border-radius: 25px;
+    padding: 13px 0;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.logimg{
+    width: 40%;
+    margin-top: 20px;
+    cursor: pointer;
+}
+.loginimg{
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+
+.buttonlog .MuiButton-root{
+    width: 80%;
+    margin-top: 30px; 
+    border-radius: 10px;
+    padding: 13px 0;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+.MuiAlert-root{
+    width: 270px;
+    margin-top: 10px;
+    font-size: .86rem;
+}
+.MuiAlert-message{
+    font-size: .86rem;
+}
+.eye{
+    position: absolute;
+    top: 274px;
+    left: 270px;
+}
+
