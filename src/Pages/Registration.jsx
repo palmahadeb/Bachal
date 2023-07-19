@@ -144,7 +144,11 @@ const Registration = () => {
            <div className='buttonregi'>
            <Button onClick={handleSubmit} variant="contained">Sign up</Button>
            </div>
+
              }
+
+              <Alert severity="error">Forgot Password<strong> <Link to ="/forgotpassword">Click Here</Link> </strong> </Alert>
+
 
          </div>
         </Grid>

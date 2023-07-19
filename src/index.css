@@ -90,4 +90,28 @@
     top: 274px;
     left: 270px;
 }
+.eyelogin{
+    position: absolute;
+    top: 227px;
+    left: 270px;
+}
+
+.forgotPassword{
+    background: #5F35F5;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.forgotPassword .box{
+    background: #fff;
+   padding: 40px;
+   border-radius: 10px;
+}
+
+.forgotPassword .box .MuiFormControl-root{
+    margin-top: 20px;
+}
+
 
