@@ -8,6 +8,8 @@ import { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup} from "firebase/auth";
 import { Link,useNavigate } from 'react-router-dom';
 import {RiEyeFill,RiEyeCloseFill} from "react-icons/ri"
+import { toast } from 'react-toastify';
+
 
 
 let initialValues ={
@@ -22,12 +24,15 @@ let initialValues ={
 
 
 const Login = () => {
+
+  const notify = (msg) => toast(msg);
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
 
   let navigate =useNavigate()
 
   let [values,setValues] =useState(initialValues)
+  let [error,setError]=useState("")
 
 
   let handleValues =(e)=>{
@@ -57,7 +62,7 @@ const Login = () => {
           })
           return
     }
-
+    
     if(!password){
       setValues({
             ...values,
@@ -84,16 +89,41 @@ const Login = () => {
        console.log(user)
     }).catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        setValues({
-          ...values,
-          password: "",
-          loading: false
-        })
+          notify(errorCode)
+        
+        if (errorCode.includes("user-not-found")) {
+          setValues({
+              ...values,
+              email: "",
+              password: "",
+              error: "User Not Found.",
+              loading: false,
+          })
+         
+      }
+
+      if (errorCode.includes("invalid-email")) {
+          setValues({
+              ...values,
+              email: "",
+              password: "",
+              error: "Invalid Email",
+              loading: false,
+          })
+      }
+
+      if (errorCode.includes("wrong-password")) {
+          setValues({
+              ...values,
+              password: "",
+              error: "Wrong Password",
+              loading: false,
+          })
+      }
   });
-    
-  }
+}
+        
+ 
 
   let handleGoogleLogin =()=>{
     signInWithPopup(auth, provider)
@@ -114,25 +144,33 @@ const Login = () => {
 
            <img onClick={handleGoogleLogin} className='logimg' src={login}/>
             <div className='textinput'>
-                <TextField value={values.email} onChange={handleValues} name='email' id="outlined-basic" label="Email address" variant="outlined" />   
-                {values.error.includes("Email") && <Alert  severity="error">{values.error}</Alert>}          
+                <TextField value={values.email} onChange={handleValues} name='email' id="outlined-basic" label="Email address" variant="outlined" />
+                
+             {error &&  <Alert severity="error">{error.includes("auth/user-not-found")&& "User not Found"}</Alert>}
+  
+                {(values.error?.includes("Email") || values.error?.includes("User Not Found")) && <Alert severity="error">{values.error}</Alert>}
+        
             </div> 
 
            <div className='textinput'>
                <TextField value={values.password} type={values.eye?"text":"password"} onChange={handleValues} name='password' id="outlined-basic" label="Password" variant="outlined" />
-               {values.error.includes("Password") && <Alert  severity="error">{values.error}</Alert>}
+
+               {values.error.includes("Password") && <Alert  severity="error">{values.error}</Alert>} 
+               
 
                   
            </div>
 
-           <div onClick={handleEye} className='eyelogin'>
-                 {values.eye
-                 ?
-                 <RiEyeFill/>
-                 :
-                 <RiEyeCloseFill/>
-                 } 
-              </div>
+            <div onClick={handleEye} className='eyelogin'>
+                          {values.eye
+                          ?
+                          <RiEyeFill/>
+                          :
+                          <RiEyeCloseFill/>
+                          } 
+                     </div>
+            
+              
             
 
               <Alert severity="info">Don't Have An Account! <strong> <Link to ="/">Registration</Link> </strong> </Alert>
@@ -148,9 +186,12 @@ const Login = () => {
                   </div>
                     :
                   <div className='buttonregi'>
+
                   <Button onClick={handleSubmit} variant="contained">Login to Continue</Button>
                   </div>
+                     
                     }
+                     
         
            </div>
 

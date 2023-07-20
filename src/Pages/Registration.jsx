@@ -19,7 +19,7 @@ let initialValues ={
 }
 
 const Registration = () => {
-
+  var pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
   const auth = getAuth();
   let navigate = useNavigate()
   let [values,setValues] =useState(initialValues)
@@ -61,7 +61,7 @@ const Registration = () => {
               return
     }
 
-    if(!password){
+    if(!password  || !pattern.test(password)){
       setValues({
             ...values,
             error:"Please Enter Your Password"

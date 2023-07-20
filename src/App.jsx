@@ -8,6 +8,9 @@ import Registration from "./Pages/Registration";
 import Login from "./Pages/Login";
 import ForgotPassword from "./Pages/ForgotPassword";
 import Home from "./Pages/Home";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,7 +27,20 @@ function App() {
 
   return (
     <>
-     <RouterProvider router={router} />
+   <ToastContainer
+            position="bottom-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+            
+     />
+           <RouterProvider router={router} />
     </>
  
   )
