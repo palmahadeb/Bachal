@@ -4,7 +4,8 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import registration from "../assets/registrationimg.webp"
 import Headingregi from '../component/Headingregi';
 import { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword,sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword,sendEmailVerification,updateProfile } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
 import { Link, useNavigate } from 'react-router-dom';
 import {RiEyeFill,RiEyeCloseFill} from "react-icons/ri"
 
@@ -21,6 +22,7 @@ let initialValues ={
 const Registration = () => {
   var pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
   const auth = getAuth();
+  const db = getDatabase();
   let navigate = useNavigate()
   let [values,setValues] =useState(initialValues)
 
@@ -76,12 +78,25 @@ const Registration = () => {
      })
 
     createUserWithEmailAndPassword(auth,email,password).then((user)=>{ 
-      console.log(user)
+    
 
-      sendEmailVerification(auth.currentUser)
-  .then(() => {
-   
-  });
+      updateProfile(auth.currentUser, {
+        displayName: values.fullName, photoURL: "https://i.ibb.co/bz1wGZc/defaultpic.png"
+      }).then(() => {
+        sendEmailVerification(auth.currentUser)
+     .then(() => {
+        console.log(user);
+        
+        set(ref(db, 'users/'+user.user.uid), {
+          username: values.fullName,
+          email: values.email,
+          profile_picture : user.user.photoURL
+        });
+      });
+      });
+      
+
+      
 
       setValues({
         email: "",
@@ -111,7 +126,7 @@ const Registration = () => {
             
 
             <div className='textinput'>
-                <TextField value={values.fullName} onChange={handleValues} name='fullName' id="outlined-basic" label="Full name" variant="outlined" />
+                <TextField type="text" value={values.fullName} onChange={handleValues} name='fullName' id="outlined-basic" label="Full name" variant="outlined" />
              {values.error.includes("Name") && <Alert  severity="error">{values.error}</Alert>}
            </div>
 

@@ -9,6 +9,8 @@ import { getAuth, signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup}
 import { Link,useNavigate } from 'react-router-dom';
 import {RiEyeFill,RiEyeCloseFill} from "react-icons/ri"
 import { toast } from 'react-toastify';
+import { useDispatch,useSelector } from 'react-redux'
+import { userData } from '../slices/users/userSlice';
 
 
 
@@ -33,6 +35,7 @@ const Login = () => {
 
   let [values,setValues] =useState(initialValues)
   let [error,setError]=useState("")
+  let dispatch = useDispatch()
 
 
   let handleValues =(e)=>{
@@ -79,14 +82,23 @@ const Login = () => {
      })
 
     signInWithEmailAndPassword(auth,email,password).then((user)=>{ 
-      console.log(user)
       setValues({
         email: "",
         password:"",
         loading:false
        })
-       navigate("/bachal/home")
-       console.log(user)
+       if (user.user.emailVerified) {
+        
+         dispatch(userData(user.user))
+         localStorage.setItem("bchal", JSON.stringify(user.user))
+         notify("Loged in to " + user.user.displayName)
+         navigate("/bachal/home")
+      
+      }else{
+        
+        notify("Please Varify Your Email For Login")
+       }
+
     }).catch((error) => {
         const errorCode = error.code;
           notify(errorCode)

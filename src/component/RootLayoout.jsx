@@ -39,6 +39,7 @@ const RootLayoout = (props) => {
                     </li>
                     <li>
                         <Link to ="/login">
+                            localStorage.removeItem("user")
                             <AiOutlineLogout className='iconlog'/>
                         </Link>
                     </li>
